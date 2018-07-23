@@ -27,12 +27,13 @@ import requests
 CONNECT_ENDPOINT = os.getenv('CONNECT_ENDPOINT', 'https://bcs.boundlessgeo.io/')
 CONNECT_APIKEY = os.getenv('CONNECT_APIKEY', 'no-value-found')
 CONNECT_VERSION = os.getenv('CONNECT_VERSION', '0.1')
-CONNECT_IGNORE_MAPS = os.getenv('CONNECT_IGNORE_MAPS', None).split(',')
+CONNECT_IGNORE_MAPS = os.getenv('CONNECT_IGNORE_MAPS', None)
 
 ignore_maps = []
-for i in CONNECT_IGNORE_MAPS:
-    clean_i = i.strip()
-    ignore_maps.append(clean_i)
+if CONNECT_IGNORE_MAPS:
+    for i in CONNECT_IGNORE_MAPS.split(','):
+        clean_i = i.strip()
+        ignore_maps.append(clean_i)
 
 request_url = ('{0}/basemaps?apikey={1}&version={2}').format(
     CONNECT_ENDPOINT.strip('/'), CONNECT_APIKEY, CONNECT_VERSION)
