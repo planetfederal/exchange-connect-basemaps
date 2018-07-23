@@ -18,7 +18,7 @@
 #
 #########################################################################
 
-from geonode.settings import MAP_BASELAYERS
+from django.conf import settings
 import json
 import os
 import requests
@@ -63,4 +63,4 @@ for map in maps:
         'visibility': False,
         'group': 'background'
     }
-    MAP_BASELAYERS.append(BASEMAP)
+    settings.MAP_BASELAYERS.append(BASEMAP)
