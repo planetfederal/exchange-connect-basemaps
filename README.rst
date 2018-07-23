@@ -6,8 +6,8 @@ GeoNode Connect Basemaps
 OS Variables Used
 *****************
 
-- CONNECT_ENDPOINT: defaults to 'https://bcs.boundlessgeo.io'
 - CONNECT_APIKEY: add your specific key
+- CONNECT_ENDPOINT: defaults to 'https://bcs.boundlessgeo.io'
 - CONNECT_VERSION: defaults to '0.1'
 - CONNECT_IGNORE_MAPS: defaults to None
 
@@ -34,4 +34,12 @@ Enable in Geonode
 .. code-block:: bash
 
    export CONNECT_APIKEY=${ADD_API_KEY}
-   export ADDITIONAL_APPS='connmaps,'
+
+Add the following to the bottom of your django settings.py file.
+
+.. code-block:: python
+
+   try:
+       from connmaps import *  # flake8: noqa
+   except ImportError:
+       pass
