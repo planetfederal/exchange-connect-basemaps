@@ -54,7 +54,8 @@ if maps:
             'type': 'OpenLayers.Layer.XYZ',
             "args": [
                 '%s' % map['name'],
-                ['{0}?apikey={1}'.format(map['endpoint'], CONNECT_APIKEY)],
+                ['{0}?apikey={1}&version={2}'.format(
+                    map['endpoint'], CONNECT_APIKEY, CONNECT_VERSION)],
                 {
                     'transitionEffect': 'resize',
                     'attribution': '%s' % map['attribution']
