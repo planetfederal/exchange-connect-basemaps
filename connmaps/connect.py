@@ -25,7 +25,7 @@ import requests
 
 #  get connect values from os environment variables
 CONNECT_ENDPOINT = os.getenv('CONNECT_ENDPOINT', 'https://bcs.boundlessgeo.io/')
-CONNECT_APIKEY = os.getenv('CONNECT_APIKEY', 'no-value-found')
+CONNECT_APIKEY = os.getenv('CONNECT_APIKEY', 'no-value-for-api-key')
 CONNECT_VERSION = os.getenv('CONNECT_VERSION', '0.1')
 CONNECT_IGNORE_MAPS = os.getenv('CONNECT_IGNORE_MAPS', None)
 
@@ -47,22 +47,32 @@ if maps:
     for map in maps:
         if map['name'] in ignore_maps:
             continue
+        url = '{0}?apikey={1}&version={2}'.format(
+            map['endpoint'],
+            CONNECT_APIKEY,
+            CONNECT_VERSION
+        ).replace('{-y}', '{y}') #  hotfix for some of the connect layers having a -y variable name
+        # .pbf files are not supported in this ptype
+        if '.pbf?apikey=' in url:
+            continue
         BASEMAP = {
             'source': {
-                'ptype': 'gxp_olsource'
+                'ptype': 'gxp_olsource',
+                'url': url,
+                'name': '{}'.format(map['name'])
             },
             'type': 'OpenLayers.Layer.XYZ',
             "args": [
-                '%s' % map['name'],
-                ['{0}?apikey={1}&version={2}'.format(
-                    map['endpoint'], CONNECT_APIKEY, CONNECT_VERSION)],
+                '{}'.format(map['name']),
+                [url],
                 {
                     'transitionEffect': 'resize',
-                    'attribution': '%s' % map['attribution']
+                    'attribution': '{}'.format(map['attribution'])
                 }
             ],
+            'name': '{}'.format(map['name']),
             'fixed': True,
-            'visibility': False,
+            'visibility': True,
             'group': 'background'
         }
         settings.MAP_BASELAYERS.append(BASEMAP)
