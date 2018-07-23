@@ -43,24 +43,25 @@ response = requests.get(url=request_url)
 if response.status_code == 200:
     maps = json.loads(response.text)
 
-for map in maps:
-    if map['name'] in ignore_maps:
-        continue
-    BASEMAP = {
-        'source': {
-            'ptype': 'gxp_olsource'
-        },
-        'type': 'OpenLayers.Layer.XYZ',
-        "args": [
-            '%s' % map['name'],
-            ['{0}?apikey={1}'.format(map['endpoint'], CONNECT_APIKEY)],
-            {
-                'transitionEffect': 'resize',
-                'attribution': '%s' % map['attribution']
-            }
-        ],
-        'fixed': True,
-        'visibility': False,
-        'group': 'background'
-    }
-    settings.MAP_BASELAYERS.append(BASEMAP)
+if maps:
+    for map in maps:
+        if map['name'] in ignore_maps:
+            continue
+        BASEMAP = {
+            'source': {
+                'ptype': 'gxp_olsource'
+            },
+            'type': 'OpenLayers.Layer.XYZ',
+            "args": [
+                '%s' % map['name'],
+                ['{0}?apikey={1}'.format(map['endpoint'], CONNECT_APIKEY)],
+                {
+                    'transitionEffect': 'resize',
+                    'attribution': '%s' % map['attribution']
+                }
+            ],
+            'fixed': True,
+            'visibility': False,
+            'group': 'background'
+        }
+        settings.MAP_BASELAYERS.append(BASEMAP)
