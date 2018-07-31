@@ -38,8 +38,8 @@ def split_str_by_comma(str):
     return list
 
 
-def get_baselayers(apikey, endpoint='https://api.boundlessgeo.io/',
-                   version='1', ignore_maps='Recent Imagery',
+def get_baselayers(apikey, endpoint='https://bcs.boundlessgeo.io/',
+                   version='1.0', ignore_maps='Recent Imagery',
                    default_map='Mapbox Streets', verify=True):
     """
 
@@ -53,7 +53,7 @@ def get_baselayers(apikey, endpoint='https://api.boundlessgeo.io/',
     baselayers = []
     default = None
     imaps = split_str_by_comma(ignore_maps)
-    url = ('{0}/v{1}/basemaps/?apikey={2}').format(
+    url = ('{0}/basemaps?version={1}&apikey={2}').format(
         endpoint.strip('/'), version, apikey)
     maps = None
     response = requests.get(url=url, verify=verify)
@@ -64,7 +64,8 @@ def get_baselayers(apikey, endpoint='https://api.boundlessgeo.io/',
         for map in maps:
             if map['name'] in imaps:
                 continue
-            url = '{0}?apikey={1}'.format(map['endpoint'], apikey)
+            url = '{0}?apikey={1}&version={2}'.format(
+                map['endpoint'], apikey, version)
             # .pbf files are not currently supported
             if map['tileFormat'] == 'PBF':
                 continue
@@ -88,7 +89,8 @@ def get_baselayers(apikey, endpoint='https://api.boundlessgeo.io/',
             }
             if map['name'] == default_map:
                 default = baselayer
-            baselayers.append(baselayer)
+            else:
+                baselayers.append(baselayer)
     if len(baselayers) > 1:
         baselayers = sorted(baselayers, key=itemgetter('name'))
     baselayers[0] = {

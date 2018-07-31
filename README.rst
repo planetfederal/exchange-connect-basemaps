@@ -19,7 +19,7 @@ Add the following to the bottom of your django settings.py file
 .. code-block:: python
 
    try:
-       from connect_basemaps import get_basemaps
-       MAP_BASELAYERS = get_basemaps('add-api-key')
+       from connect_basemaps import get_baselayers
+       MAP_BASELAYERS = get_baselayers('add-api-key')
    except ImportError:
        pass
