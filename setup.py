@@ -18,7 +18,7 @@ setup(
     author_email='contact@boundlessgeo.com',
     url='https://github.com/boundlessgeo/exchange-connect-basemaps',
     download_url="https://github.com/boundlessgeo/exchange-connect-basemaps",
-    description="Django application to load connect basemaps in Exchange instance.",
+    description="Django application to load connect layers in Exchange.",
     long_description=open('README.rst').read(),
     license='GPLv3',
     install_requires=REQUIREMENTS,
