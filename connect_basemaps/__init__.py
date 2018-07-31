@@ -23,6 +23,26 @@ import requests
 from operator import itemgetter
 
 
+BLANK_LAYER_LIST = [{
+    "source": {"ptype": "gxp_olsource"},
+    "type": "OpenLayers.Layer",
+    "args": ["No background"],
+    "name": "background",
+    "visibility": False,
+    "fixed": True,
+    "group": "background"
+}]
+
+OSM_LAYER_LIST = [{
+    "source": {"ptype": "gxp_osmsource"},
+    "type": "OpenLayers.Layer.OSM",
+    "name": "mapnik",
+    "visibility": True,
+    "fixed": True,
+    "group": "background"
+}]
+
+
 def split_str_by_comma(str):
     """
     create a list from a string by splitting string using commas
@@ -38,8 +58,8 @@ def split_str_by_comma(str):
     return list
 
 
-def get_baselayers(apikey, endpoint='https://bcs.boundlessgeo.io/',
-                   version='1.0', ignore_maps='Recent Imagery',
+def get_baselayers(apikey, endpoint='https://bcs.boundlessgeo.io',
+                   version='0.1', ignore_maps='Recent Imagery',
                    default_map='Mapbox Streets', verify=True):
     """
 
@@ -88,20 +108,15 @@ def get_baselayers(apikey, endpoint='https://bcs.boundlessgeo.io/',
                 "group": "background"
             }
             if map['name'] == default_map:
-                default = baselayer
+                default = [baselayer]
             else:
                 baselayers.append(baselayer)
-    if len(baselayers) > 1:
+    if len(baselayers) > 0:
         baselayers = sorted(baselayers, key=itemgetter('name'))
-    baselayers[0] = {
-        "source": {"ptype": "gxp_olsource"},
-        "type": "OpenLayers.Layer",
-        "args": ["No background"],
-        "name": "background",
-        "visibility": False,
-        "fixed": True,
-        "group": "background"
-    }
+    else:
+        baselayers = OSM_LAYER_LIST
     if default:
-        baselayers[1] = default
+        baselayers = default + baselayers
+    baselayers = BLANK_LAYER_LIST + baselayers
+
     return baselayers
