@@ -4,13 +4,13 @@ with open('README.rst', 'r') as inp:
     LONG_DESCRIPTION = inp.read()
 
 setup(
-    name='geonode-connect-basemaps',
+    name='exchange-connect-basemaps',
     version='1.0.0',
     author='Boundless Spatial',
     author_email='contact@boundlessgeo.com',
-    url='https://github.com/boundlessgeo/geonode-connect-basemaps',
-    download_url="https://github.com/boundlessgeo/geonode-connect-basemaps",
-    description="Django application to load connect basemaps in Geonode instance.",
+    url='https://github.com/boundlessgeo/exchange-connect-basemaps',
+    download_url="https://github.com/boundlessgeo/exchange-connect-basemaps",
+    description="Django application to load connect basemaps in Exchange instance.",
     long_description=LONG_DESCRIPTION,
     license='GPLv3',
     packages=find_packages(),
