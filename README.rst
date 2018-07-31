@@ -82,7 +82,7 @@ Full configuration example
 
 .. code-block:: python
 
-   MAP_BASELAYERS = [{
+   {
        "source": {"ptype": "gxp_olsource"},
        "type": "OpenLayers.Layer",
        "args": ["No background"],

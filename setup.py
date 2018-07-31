@@ -1,7 +1,15 @@
-from setuptools import setup, find_packages
+try:
+    from pip._internal.req import parse_requirements
+    from pip._internal.download import PipSession
+except ImportError:
+    from pip.req import parse_requirements
+    from pip.download import PipSession
 
-with open('README.rst', 'r') as inp:
-    LONG_DESCRIPTION = inp.read()
+from distutils.core import setup
+from setuptools import find_packages
+
+inst_req = parse_requirements('requirements.txt', session=PipSession())
+REQUIREMENTS = [str(r.req) for r in inst_req]
 
 setup(
     name='exchange-connect-basemaps',
@@ -11,8 +19,9 @@ setup(
     url='https://github.com/boundlessgeo/exchange-connect-basemaps',
     download_url="https://github.com/boundlessgeo/exchange-connect-basemaps",
     description="Django application to load connect basemaps in Exchange instance.",
-    long_description=LONG_DESCRIPTION,
+    long_description=open('README.rst').read(),
     license='GPLv3',
+    install_requires=REQUIREMENTS,
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
